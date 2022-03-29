@@ -1,57 +1,64 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import s from "./Login.module.css"
 import { NavLink } from 'react-router-dom';
-import { useValidateInput } from '../utils/useValidateInput';
+import { AuthContext } from './../context/context';
+import { useInput } from './../hooks/useInput';
 
 
 const Login = () => {
+    // авторизация пользователя
+    const { isAuth, setIsAuth } = useContext(AuthContext)
+
+    // запомни меня
     const [checked, setChecked] = useState(false);
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
     };
 
-    const [inputTarget, setInputTarget] = useState({
-        login: '',
-        password: '',
-    })
+    //управление инпутами
 
-    const [formError, setFormError] = useState({
-        login: { error: false, helperText: "" },
-        password: { error: false, helperText: "" },
-    })
+    const login = useInput("", { isEmpty: true })
+    const password = useInput("", { isEmpty: true })
 
-    const changeinputValue = (e) => {
-        setInputTarget({
-            ...inputTarget,
-            [e.target.id]: e.target.value
-        })
-    }
+    //отправка формы
 
-    const {error: errorLogin, validateError: validateLogin} = useValidateInput(() => inputTarget.login === '')
-    const {error: errorPassword, validateError: validatePassword} = useValidateInput(() => inputTarget.password === '')
-
-    const isValidForm = () => {
-        validateLogin();
-        validatePassword();
-    }
-
-    const pushForm = () => {
+    const formSubmit = (e) => {
+        e.preventDefault()
+        setIsAuth(true)
     }
 
     return (
         <div className={s.container}>
             <div className={s.wrap}>
-                <form className={s.form}>
+                <form className={s.form} onSubmit={(e) => formSubmit(e)}>
                     <span className={s.loginText}>Вход</span>
                     <div className={s.input}>
-                        <TextField error={errorLogin} id="login" name="login" label="Логин" variant="filled" value={inputTarget.login} onChange={changeinputValue} helperText={formError.login.helperText} required />
+                        <TextField
+                            label="Логин"
+                            variant="filled"
+                            required
+                            error={(login.isDirty && login.isEmpty)}
+                            value={login.value}
+                            onChange={e => login.onChange(e)}
+                            onBlur={e => login.onBlur(e)}
+                            helperText={(login.isDirty && login.isEmpty) && login.error}
+                        />
                     </div>
                     <div className={s.input}>
-                        <TextField error={errorPassword} id="password" name="password" label="Пароль" variant="filled" value={inputTarget.password} onChange={changeinputValue} helperText={formError.password.helperText} required />
+                        <TextField
+                            label="Пароль"
+                            variant="filled"
+                            required
+                            error={(password.isDirty && password.isEmpty)}
+                            value={password.value}
+                            onChange={e => password.onChange(e)}
+                            onBlur={e => password.onBlur(e)}
+                            helperText={(password.isDirty && password.isEmpty) && password.error}
+                        />
                     </div>
                     <div className={s.toolsPassword}>
                         <div>
@@ -69,7 +76,7 @@ const Login = () => {
                         <NavLink to="/register" style={{ textDecoration: "none" }}>
                             <Button variant="text">Регистрация</Button>
                         </NavLink>
-                        <Button variant="contained" onClick={isValidForm}>Войти</Button>
+                        <Button type='submit' disabled={!login.inputValid || !password.inputValid} variant="contained" >Войти</Button>
                     </div>
                 </form>
             </div>
