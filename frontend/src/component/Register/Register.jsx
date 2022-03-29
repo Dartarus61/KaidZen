@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import s from "./Register.module.css"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import { useInput } from '../hooks/useInput';
 import { AuthContext } from '../context/context';
 
 const Register = () => {
-    const { isAuth, setIsAuth } = useContext(AuthContext)
+    const { setIsAuth } = useContext(AuthContext)
 
     const surname = useInput("", { isEmpty: true })
     const name = useInput("", { isEmpty: true })
@@ -63,7 +63,16 @@ const Register = () => {
     //поздно исправляется
     const pushForm = (e) => {
         e.preventDefault()
-        setIsAuth(true)
+        setIsAuth({
+            auth: true,
+            role: "user",
+            data: {
+                name: name.value,
+                surname: surname.value,
+                secondName: secondName.value,
+                numberGroup: numberGroup.value,
+            }
+        })
     }
 
     return (

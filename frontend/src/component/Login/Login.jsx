@@ -10,7 +10,7 @@ import { useInput } from './../hooks/useInput';
 
 const Login = () => {
     // авторизация пользователя
-    const { isAuth, setIsAuth } = useContext(AuthContext)
+    const { setIsAuth } = useContext(AuthContext)
 
     // запомни меня
     const [checked, setChecked] = useState(false);

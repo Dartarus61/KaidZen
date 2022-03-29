@@ -5,7 +5,16 @@ import "./App.css";
 import AppRouter from './component/AppRouter/AppRouter.jsx';
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState({
+    auth: false,
+    role: "",
+    data: {
+      name: "",
+      surname: "",
+      secondName: "",
+      numberGroup:"",
+    }
+  })
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>
