@@ -21,7 +21,7 @@ const Login = () => {
 
   //управление инпутами
 
-  const login = useInput("", { isEmpty: true });
+  const login = useInput("", { isEmpty: true, email: true });
   const password = useInput("", { isEmpty: true });
 
   //отправка формы
@@ -33,12 +33,12 @@ const Login = () => {
 
   const propsList = [
     {
-      label: "Логин",
-      error: login.isDirty && login.isEmpty,
+      label: "Почта",
+      error: login.isDirty && (login.isEmpty || login.emailError) ,
       value: login.value,
       onChange: (e) => login.onChange(e),
       onBlur: (e) => login.onBlur(e),
-      helperText: login.isDirty && login.isEmpty && login.error,
+      helperText: login.isDirty && (login.isEmpty || login.emailError) && login.error,
     },
     {
       label: "Пароль",

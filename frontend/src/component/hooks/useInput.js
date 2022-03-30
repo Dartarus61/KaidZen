@@ -5,6 +5,7 @@ const useValidation = (value, validations) => {
 
     const [isEmpty, setIsEmpty] = useState(true)
     const [minLength, setMinLength] = useState(false)
+    const [emailError, setEmailError] = useState (false)
     const [inputValid, setInputValid] = useState(false)
     const [error, setError] = useState("")
 
@@ -17,12 +18,16 @@ const useValidation = (value, validations) => {
                 case "minLength":
                     value.length < validations[validation] ? setMinLength(true) : setMinLength(false)
                     break;
+                case "email":
+                    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                    !re.test(String(value).toLowerCase()) ? setEmailError(true) : setEmailError(false)
+                    break;      
             }
         }
     }, [value])
 
     useEffect(() => {
-        if (isEmpty || minLength) {
+        if (isEmpty || minLength || emailError) {
             setInputValid(false)
         }
         else {
@@ -32,29 +37,34 @@ const useValidation = (value, validations) => {
 
     useEffect(() => {
         for (const validation in validations) {
-            if (isEmpty){
-                setError("Поле не может быть пустым")
-                break;
-            }
-            else{
-                setError("")
-            }
             switch (validation) {
+                case "isEmpty":
+                    if (isEmpty){
+                        setError("Поле не может быть пустым")
+                        return;
+                    }
+                    else{
+                        setError("")
+                    }
                 case "minLength":
                     if(value.length < validations[validation]){
-                        setError("Длинна мала")
+                        setError(`Длинна поля не может быть меньше ${validations[validation]} символов`)
                     } else{
                         setError("");
                     } 
                     break;
+                case "email":
+                    emailError ? setError("Почта указана неверно") :  setError("")
+                    break;   
             }
         }
-    }, [isEmpty, minLength])
+    }, [isEmpty, minLength, emailError])
 
     return {
         isEmpty,
         minLength,
         inputValid,
+        emailError,
         error,
     }
 }

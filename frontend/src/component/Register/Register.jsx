@@ -12,7 +12,7 @@ const Register = () => {
   const name = useInput("", { isEmpty: true });
   const secondName = useInput("", { isEmpty: true });
   const numberGroup = useInput("", { isEmpty: true });
-  const login = useInput("", { isEmpty: true });
+  const login = useInput("", { isEmpty: true, email: true });
   const password = useInput("", { isEmpty: true, minLength: 8 });
   const repeatPassword = useInput("", { isEmpty: true, minLength: 8 });
   const [passwordError, setPasswordError] = useState(false);
@@ -121,12 +121,12 @@ const Register = () => {
         numberGroup.isDirty && numberGroup.isEmpty && numberGroup.error,
     },
     {
-      label: "Логин",
-      error: login.isDirty && login.isEmpty,
+      label: "Почта",
+      error: login.isDirty && (login.isEmpty || login.emailError),
       value: login.value,
       onChange: (e) => login.onChange(e),
       onBlur: (e) => login.onBlur(e),
-      helperText: login.isDirty && login.isEmpty && login.error,
+      helperText: login.isDirty && (login.isEmpty || login.emailError) && login.error,
     },
     {
       label: "Пароль",
