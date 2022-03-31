@@ -13,6 +13,7 @@ function App() {
       surname: "",
       secondName: "",
       numberGroup:"",
+      token: ""
     }
   })
 
