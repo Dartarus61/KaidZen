@@ -2,18 +2,19 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import s from "./Input.module.css";
 
-const Input = (promis) => {
+const Input = (props) => {
   return (
     <div className={s.input}>
       <TextField
-        label={promis.label}
+        label={props.label}
         variant="filled"
         required
-        error={promis.error}
-        value={promis.value}
-        onChange={promis.onChange}
-        onBlur={promis.onBlur}
-        helperText={promis.helperText}
+        type={props.type}
+        error={props.error}
+        value={props.value}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
+        helperText={props.helperText}
       />
     </div>
   );

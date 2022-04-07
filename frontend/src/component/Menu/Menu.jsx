@@ -18,6 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SendIcon from "@mui/icons-material/Send";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -128,18 +129,28 @@ export default function Menu({ children, head }) {
           }}
         >
           <List>
-            <ListItem style={{ paddingRight: "0px" }} button>
-              <ListItemText>Профиль</ListItemText>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-            </ListItem>
-            <ListItem style={{ paddingRight: "0px" }} button>
-              <ListItemText>Отправить предложение</ListItemText>
-              <ListItemIcon>
-                <SendIcon />
-              </ListItemIcon>
-            </ListItem>
+            <NavLink
+              to="/profile"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItem style={{ paddingRight: "0px" }} button>
+                <ListItemText>Профиль</ListItemText>
+                <ListItemIcon>
+                  <AccountCircleIcon />
+                </ListItemIcon>
+              </ListItem>
+            </NavLink>
+            <NavLink
+              to="/send"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItem style={{ paddingRight: "0px" }} button>
+                <ListItemText>Отправить предложение</ListItemText>
+                <ListItemIcon>
+                  <SendIcon />
+                </ListItemIcon>
+              </ListItem>
+            </NavLink>
           </List>
           <List>
             <ListItem style={{ paddingRight: "0px" }} button>

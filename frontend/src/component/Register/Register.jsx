@@ -5,6 +5,9 @@ import { Navigate, NavLink } from "react-router-dom";
 import { useInput } from "../hooks/useInput";
 import { AuthContext } from "../context/context";
 import InputList from "../InputList/InputList";
+import axios from "axios";
+import Loader from "../UI/Loader/Loader";
+import Alert from "@mui/material/Alert";
 
 const Register = () => {
   const { setIsAuth } = useContext(AuthContext);
@@ -16,6 +19,11 @@ const Register = () => {
   const password = useInput("", { isEmpty: true, minLength: 8 });
   const repeatPassword = useInput("", { isEmpty: true, minLength: 8 });
   const [passwordError, setPasswordError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState({
+    test: false,
+    text: "",
+  });
 
   useEffect(() => {
     if (
@@ -72,18 +80,41 @@ const Register = () => {
   };
 
   //поздно исправляется
-  const pushForm = (e) => {
+  const pushForm = async (e) => {
     e.preventDefault();
-    setIsAuth({
-      auth: true,
-      role: "user",
-      data: {
-        name: name.value,
+    setIsLoading(true);
+    await axios
+      .post("/api/register", {
         surname: surname.value,
-        secondName: secondName.value,
-        numberGroup: numberGroup.value,
-      },
-    });
+        name: name.value,
+        secondname: secondName.value,
+        group: numberGroup.value,
+        login: login.value,
+        password: password.value,
+      })
+      .then(function (response) {
+        setIsAuth({
+          auth: true,
+          role: response.data.user.role,
+          data: {
+            name: response.data.user.name,
+            surname: response.data.user.surname,
+            secondName: response.data.user.secondname,
+            numberGroup: response.data.user.group,
+            token: response.data.accsessToken,
+          },
+        });
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        setFetchError({
+          test: true,
+          text: error.message,
+        });
+      })
+      .finally(function (error) {
+        setIsLoading(false);
+      });
   };
 
   const propsList = [
@@ -126,12 +157,14 @@ const Register = () => {
       value: login.value,
       onChange: (e) => login.onChange(e),
       onBlur: (e) => login.onBlur(e),
-      helperText: login.isDirty && (login.isEmpty || login.emailError) && login.error,
+      helperText:
+        login.isDirty && (login.isEmpty || login.emailError) && login.error,
     },
     {
       label: "Пароль",
       error: testPassword(),
       value: password.value,
+      type: "password",
       onChange: (e) => password.onChange(e),
       onBlur: (e) => password.onBlur(e),
       helperText: testPassword(),
@@ -140,6 +173,7 @@ const Register = () => {
       label: "Повторите пароль",
       error: testRepeatPassword(),
       value: repeatPassword.value,
+      type: "password",
       onChange: (e) => repeatPassword.onChange(e),
       onBlur: (e) => repeatPassword.onBlur(e),
       helperText: testRepeatPassword(),
@@ -148,6 +182,7 @@ const Register = () => {
 
   return (
     <div className={s.container}>
+      {isLoading && <Loader />}
       <div className={s.wrap}>
         <form className={s.form} onSubmit={(e) => pushForm(e)}>
           <span className={s.loginText}>Регистрация</span>
@@ -162,6 +197,12 @@ const Register = () => {
           </div>
         </form>
       </div>
+      {fetchError.test &&
+        (fetchError.text == "Request failed with status code 400" ? (
+          <Alert severity="error">"Почта уже существует"</Alert>
+        ) : (
+          <Alert severity="error">"Что-то пошло не так"</Alert>
+        ))}
     </div>
   );
 };

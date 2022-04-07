@@ -33,7 +33,7 @@ const useValidation = (value, validations) => {
         else {
             setInputValid(true)
         }
-    }, [isEmpty, minLength])
+    }, [isEmpty, minLength, emailError])
 
     useEffect(() => {
         for (const validation in validations) {

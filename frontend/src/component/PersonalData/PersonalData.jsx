@@ -1,14 +1,16 @@
 import { Button, Fab, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import s from "./PersonalData.module.css";
+import { AuthContext } from "./../context/context";
 
 const PersonalData = () => {
+  const { isAuth } = useContext(AuthContext);
   const [targetInput, setTargetInput] = useState({
-    name: "",
-    surname: "",
-    secondName: "",
-    namberGroup: "",
+    name: isAuth.data.name,
+    surname: isAuth.data.surname,
+    secondName: isAuth.data.secondName,
+    namberGroup: isAuth.data.numberGroup,
   });
 
   const [canChange, setCanChange] = useState({

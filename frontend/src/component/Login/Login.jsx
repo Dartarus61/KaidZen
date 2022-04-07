@@ -7,6 +7,9 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "./../context/context";
 import { useInput } from "./../hooks/useInput";
 import InputList from "../InputList/InputList";
+import axios from "axios";
+import Loader from "../UI/Loader/Loader";
+import Alert from "@mui/material/Alert";
 
 const Login = () => {
   // авторизация пользователя
@@ -14,6 +17,11 @@ const Login = () => {
 
   // запомни меня
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState({
+    test: false,
+    text: "",
+  });
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -26,24 +34,55 @@ const Login = () => {
 
   //отправка формы
 
-  const formSubmit = (e) => {
+  const formSubmit = async (e) => {
     e.preventDefault();
-    setIsAuth(true);
+    setIsLoading(true);
+    await axios
+      .post("/api/login", {
+        login: login.value,
+        password: password.value,
+      })
+      .then(function (response) {
+        setIsAuth({
+          auth: true,
+          role: response.data.user.role,
+          data: {
+            name: response.data.user.name,
+            surname: response.data.user.surname,
+            secondName: response.data.user.secondname,
+            numberGroup: response.data.user.group,
+            token: response.data.accsessToken,
+          },
+        });
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        setFetchError({
+          test: true,
+          text: error.message,
+        });
+      })
+      .finally(function (error) {
+        setIsLoading(false);
+      });
   };
 
   const propsList = [
     {
       label: "Почта",
-      error: login.isDirty && (login.isEmpty || login.emailError) ,
+      error: login.isDirty && (login.isEmpty || login.emailError),
       value: login.value,
       onChange: (e) => login.onChange(e),
       onBlur: (e) => login.onBlur(e),
-      helperText: login.isDirty && (login.isEmpty || login.emailError) && login.error,
+      helperText:
+        login.isDirty && (login.isEmpty || login.emailError) && login.error,
     },
     {
       label: "Пароль",
       error: password.isDirty && password.isEmpty,
       value: password.value,
+      type: "password",
+      autoComplete: "current-password",
       onChange: (e) => password.onChange(e),
       onBlur: (e) => password.onBlur(e),
       helperText: password.isDirty && password.isEmpty && password.error,
@@ -52,6 +91,7 @@ const Login = () => {
 
   return (
     <div className={s.container}>
+      {isLoading && <Loader />}
       <div className={s.wrap}>
         <form className={s.form} onSubmit={(e) => formSubmit(e)}>
           <span className={s.loginText}>Вход</span>
@@ -81,6 +121,12 @@ const Login = () => {
             </Button>
           </div>
         </form>
+        {fetchError.test &&
+          (fetchError.text == "Request failed with status code 400" ? (
+            <Alert severity="error">"Логин или пароль указаны неверно"</Alert>
+          ) : (
+            <Alert severity="error">"Что-то пошло не так"</Alert>
+          ))}
       </div>
     </div>
   );
