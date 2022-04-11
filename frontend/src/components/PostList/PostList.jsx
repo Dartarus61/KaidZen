@@ -2,6 +2,9 @@ import List from "@mui/material/List";
 import PostItem from "../PostItem/PostItem";
 
 export default function PostList({ posts }) {
+  posts.sort(function (a, b) {
+    return b.id - a.id;
+  });
   return (
     <List
       sx={{

@@ -24,8 +24,6 @@ const PostItem = ({ props, index }) => {
     }
   };
 
-  console.log(props);
-
   return (
     <div>
       <ListItemButton
