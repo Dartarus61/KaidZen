@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -9,6 +9,10 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PersonalData from "./../PersonalData/PersonalData";
 import PostList from "./../PostList/PostList";
+import Loader from "../../UI/Loader/Loader";
+import PostServis from "../../items/PostServis";
+import { AuthContext } from "../../items/context/context";
+import { useFetching } from "../../items/hooks/useFetching";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,6 +61,17 @@ export default function ProfileDashboard() {
     exit: theme.transitions.duration.leavingScreen,
   };
 
+  const { isAuth } = useContext(AuthContext);
+  const [posts, setPosts] = useState([]);
+  const [fetchingPosts, isLoading, error] = useFetching(async () => {
+    const posts = await PostServis.getMyPost(isAuth.data.id);
+    setPosts(posts);
+  });
+
+  useEffect(() => {
+    fetchingPosts();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -79,18 +94,22 @@ export default function ProfileDashboard() {
           <Tab label="Отправленые предложения" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <PersonalData />
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <PostList />
-        </TabPanel>
-      </SwipeableViews>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <PersonalData />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <PostList posts={posts} />
+          </TabPanel>
+        </SwipeableViews>
+      )}
     </Box>
   );
 }

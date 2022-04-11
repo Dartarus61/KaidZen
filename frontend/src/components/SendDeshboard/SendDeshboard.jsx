@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useInput } from "../../items/hooks/useInput";
 import InputList from "../InputList/InputList";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,10 +8,14 @@ import Select from "@mui/material/Select";
 import { Button, TextField } from "@mui/material";
 import s from "./SendDeshboard.module.css";
 import Loader from "../../UI/Loader/Loader";
+import { AuthContext } from "../../items/context/context";
+import axios from "axios";
 
 const SendDeshboard = () => {
+  const { isAuth } = useContext(AuthContext);
   const body = useInput("", { isEmpty: true });
   const effect = useInput("", { isEmpty: true });
+  const [area, setArea] = useState("");
   const [targetFile, setTargetFile] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,19 +39,35 @@ const SendDeshboard = () => {
     },
   ];
 
-  const [area, setArea] = React.useState("");
-
   const handleChange = (event) => {
     setArea(event.target.value);
   };
 
   const pushForm = async (e) => {
     e.preventDefault();
+    console.log(1);
     setIsLoading(true);
+    await axios
+      .post("api/offer", {
+        description: body.value,
+        economic: effect.value,
+        area_of_improvement: area,
+        id: isAuth.data.id,
+      })
+      .then(function (response) {
+        console.log(response.data);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function (error) {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <form className={s.container} onSubmit={(e) => pushForm}>
+    <form className={s.container}>
       {isLoading && <Loader />}
       <InputList props={propsList} />
       <FormControl fullWidth>
@@ -77,6 +97,7 @@ const SendDeshboard = () => {
       <Button
         disabled={!body.inputValid || !effect.inputValid || area === ""}
         style={{ marginTop: "40px" }}
+        onClick={(e) => pushForm(e)}
         variant="contained"
       >
         Отправить

@@ -1,12 +1,19 @@
 import React from "react";
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
 import { ListItemText } from "@mui/material";
 
-const CommentList = () => {
+const CommentList = ({ props }) => {
   return (
-    <List component="div" disablePadding>
-      <ListItemText sx={{ pl: 4 }} primary="Комментарий 1" />
+    <List sx={{ pl: 4 }} component="div" disablePadding>
+      {!props.length
+        ? "Комментариев нет"
+        : props.map((el, index) => (
+            <ListItemText
+              sx={{ border: "1px solid black", borderRadius: "14px" }}
+              primary={`Комментарий ${index + 1}`}
+              secondary={el.description}
+            />
+          ))}
     </List>
   );
 };

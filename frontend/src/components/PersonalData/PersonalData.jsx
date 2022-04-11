@@ -20,7 +20,6 @@ const PersonalData = () => {
   });
 
   const changeTarget = (e) => {
-    console.log();
     setTargetInput({
       ...targetInput,
       [e.target.id]: e.target.value,

@@ -46,6 +46,7 @@ const Login = () => {
           auth: true,
           role: response.data.user.role,
           data: {
+            id: response.data.user.id,
             name: response.data.user.name,
             surname: response.data.user.surname,
             secondName: response.data.user.secondname,
@@ -59,6 +60,7 @@ const Login = () => {
             auth: true,
             role: response.data.user.role,
             data: {
+              id: response.data.user.id,
               name: response.data.user.name,
               surname: response.data.user.surname,
               secondName: response.data.user.secondname,
