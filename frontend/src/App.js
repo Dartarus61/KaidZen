@@ -14,7 +14,8 @@ function App() {
       surname: "",
       secondName: "",
       numberGroup:"",
-      token: ""
+      token: "",
+      area: "",
     }
   })
 

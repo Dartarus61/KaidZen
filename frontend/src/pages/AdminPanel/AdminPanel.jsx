@@ -4,7 +4,7 @@ import AdminPanelDashboard from "../../components/AdminPanelDashboard/AdminPanel
 
 const AdminPanel = () => {
   return (
-    <Menu head="Поступившие редложения">
+    <Menu head="Админ панель">
       <AdminPanelDashboard />
     </Menu>
   );

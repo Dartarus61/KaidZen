@@ -7,20 +7,22 @@ import React, { useState } from "react";
 import CommentList from "./CommentList/CommentList";
 
 const PostItem = ({ props, index }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
+  console.log(props);
+
   const cheakStatus = () => {
     switch (props.accepted) {
-      case null:
-        return "В обработке";
-      case true:
-        return "Принято";
-      case null:
-        return "Отклонено";
+      case "true":
+        return <p style={{ color: "green" }}>Принято</p>;
+      case "false":
+        return <p style={{ color: "red" }}>Отклонено</p>;
+      case "На рассмотрении":
+        return <p>В обработке</p>;
     }
   };
 

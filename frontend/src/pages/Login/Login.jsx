@@ -28,7 +28,7 @@ const Login = () => {
 
   //управление инпутами
 
-  const login = useInput("", { isEmpty: true, email: true });
+  const login = useInput("", { isEmpty: true });
   const password = useInput("", { isEmpty: true });
 
   //отправка формы
@@ -47,6 +47,7 @@ const Login = () => {
           role: response.data.user.role,
           data: {
             id: response.data.user.id,
+            area: response.data.user.area_of_improvement,
             name: response.data.user.name,
             surname: response.data.user.surname,
             secondName: response.data.user.secondname,
@@ -61,6 +62,7 @@ const Login = () => {
             role: response.data.user.role,
             data: {
               id: response.data.user.id,
+              area: response.data.user.area_of_improvement,
               name: response.data.user.name,
               surname: response.data.user.surname,
               secondName: response.data.user.secondname,
@@ -85,12 +87,11 @@ const Login = () => {
   const propsList = [
     {
       label: "Почта",
-      error: login.isDirty && (login.isEmpty || login.emailError),
+      error: login.isDirty && login.isEmpty,
       value: login.value,
       onChange: (e) => login.onChange(e),
       onBlur: (e) => login.onBlur(e),
-      helperText:
-        login.isDirty && (login.isEmpty || login.emailError) && login.error,
+      helperText: login.isDirty && login.isEmpty && login.error,
     },
     {
       label: "Пароль",

@@ -79,9 +79,9 @@ const SendDeshboard = () => {
           label="Сфера улучшения"
           onChange={handleChange}
         >
-          <MenuItem value="Transport">Транспортировка</MenuItem>
-          <MenuItem value="Details">Детали</MenuItem>
-          <MenuItem value="Methods">Методы производства</MenuItem>
+          <MenuItem value="transport">Транспортировка</MenuItem>
+          <MenuItem value="details">Детали</MenuItem>
+          <MenuItem value="methods">Методы производства</MenuItem>
         </Select>
       </FormControl>
       <TextField

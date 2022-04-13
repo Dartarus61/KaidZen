@@ -20,6 +20,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SendIcon from "@mui/icons-material/Send";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MenuItem from "../../components/MenuItem/ManuItem";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 const drawerWidth = 240;
 
@@ -84,7 +86,11 @@ export default function Menu({ children, head }) {
 
   if (isAuth.role === "admin") {
     menuList = [
-      <MenuItem to="/admin" head="Админ панель" icon={<AccountCircleIcon />} />,
+      <MenuItem
+        to="/admin"
+        head="Админ панель"
+        icon={<AdminPanelSettingsIcon />}
+      />,
     ];
   } else if (isAuth.role === "glava") {
     menuList = [
@@ -92,7 +98,7 @@ export default function Menu({ children, head }) {
       <MenuItem
         to="/saggestions"
         head="Новые предложения"
-        icon={<AccountCircleIcon />}
+        icon={<AssignmentIcon />}
       />,
     ];
   } else {

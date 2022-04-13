@@ -1,3 +1,4 @@
+import { ArchiveSharp } from "@mui/icons-material";
 import axios from "axios";
 
 export default class PostServis {
@@ -6,5 +7,48 @@ export default class PostServis {
             id: id,
           })
         return respons.data;  
+    }
+    static async getUsers(){
+        const respons = await axios.get("/api/users")
+        return respons.data;  
+    }
+    static async setChange(id, role, area){
+        const respons = await axios.post("/api/users/changerole", {
+            id: id,
+            role: role,
+            area: role === "user" ? null : area,
+        })
+        return respons.data;  
+    }
+    static async getPostFromArea(area){
+        const respons = await axios.post("/api/offer/masters", {
+            area: area,
+        })
+        console.log(respons.data, area);
+        return respons.data; 
+    }
+    static async getPostFromAreaFalse(area){
+        const respons = await axios.post("api/offer/masters/false", {
+            area: area,
+        })
+        console.log(respons.data, area);
+        return respons.data; 
+    }
+    static async getCommentTrue(id, ctx, userId){
+        console.log(id, ctx, userId);
+        const respons = await axios.post("api/offer/master/setcomtrue", {
+            id: id,
+            ctx: ctx,
+            userId: userId,
+        })
+        return respons.data; 
+    }
+    static async getCommentFalse(id, ctx, userId){
+        const respons = await axios.post("api/offer/master/setcom", {
+            id: id,
+            ctx: ctx,
+            userId: userId,
+        })
+        return respons.data; 
     }
 }

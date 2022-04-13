@@ -64,8 +64,13 @@ export default function ProfileDashboard() {
   const { isAuth } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [fetchingPosts, isLoading, error] = useFetching(async () => {
-    const posts = await PostServis.getMyPost(isAuth.data.id);
-    setPosts(posts);
+    if (isAuth.role === "user") {
+      const posts = await PostServis.getMyPost(isAuth.data.id);
+      setPosts(posts);
+    } else {
+      const posts = await PostServis.getPostFromAreaFalse(isAuth.data.area);
+      setPosts(posts);
+    }
   });
 
   useEffect(() => {
@@ -91,7 +96,14 @@ export default function ProfileDashboard() {
           aria-label="action tabs example"
         >
           <Tab label="Личные данные" {...a11yProps(0)} />
-          <Tab label="Отправленые предложения" {...a11yProps(1)} />
+          <Tab
+            label={
+              isAuth.role === "user"
+                ? "Отправленые предложения"
+                : "Все предложения"
+            }
+            {...a11yProps(1)}
+          />
         </Tabs>
       </AppBar>
       {isLoading ? (

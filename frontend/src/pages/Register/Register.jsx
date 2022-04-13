@@ -98,6 +98,7 @@ const Register = () => {
           role: response.data.user.role,
           data: {
             id: response.data.user.id,
+            area: response.data.user.area_of_improvement,
             name: response.data.user.name,
             surname: response.data.user.surname,
             secondName: response.data.user.secondname,
@@ -112,6 +113,7 @@ const Register = () => {
             role: response.data.user.role,
             data: {
               id: response.data.user.id,
+              area: response.data.user.area_of_improvement,
               name: response.data.user.name,
               surname: response.data.user.surname,
               secondName: response.data.user.secondname,

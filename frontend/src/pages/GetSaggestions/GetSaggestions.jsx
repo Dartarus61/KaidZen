@@ -4,7 +4,7 @@ import GetSaggestionsDashboard from "../../components/GetSaggestionsDashboard/Ge
 
 const SendSuggest = () => {
   return (
-    <Menu head="Поступившие редложения">
+    <Menu head="Поступившие предложения">
       <GetSaggestionsDashboard />
     </Menu>
   );
