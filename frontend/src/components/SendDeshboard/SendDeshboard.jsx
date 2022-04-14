@@ -16,7 +16,7 @@ const SendDeshboard = () => {
   const body = useInput("", { isEmpty: true });
   const effect = useInput("", { isEmpty: true });
   const [area, setArea] = useState("");
-  const [targetFile, setTargetFile] = useState("");
+  const [uploadFile, setUploadFile] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const propsList = [
@@ -45,14 +45,18 @@ const SendDeshboard = () => {
 
   const pushForm = async (e) => {
     e.preventDefault();
-    console.log(1);
     setIsLoading(true);
+    const dataArray = new FormData();
+    dataArray.append("filedata", uploadFile);
+    dataArray.append("description", body.value);
+    dataArray.append("economic", effect.value);
+    dataArray.append("area_of_improvement", area);
+    dataArray.append("id", isAuth.data.id);
     await axios
-      .post("api/offer", {
-        description: body.value,
-        economic: effect.value,
-        area_of_improvement: area,
-        id: isAuth.data.id,
+      .post("api/offer", dataArray, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then(function (response) {
         console.log(response.data);
@@ -86,9 +90,9 @@ const SendDeshboard = () => {
       </FormControl>
       <TextField
         type="file"
-        value={targetFile}
         onChange={(e) => {
-          setTargetFile(e.target.value);
+          setUploadFile(e.target.files[0]);
+          console.log(uploadFile);
         }}
         style={{ paddingTop: "40px" }}
         id="outlined-basic"

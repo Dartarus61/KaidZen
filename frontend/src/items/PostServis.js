@@ -2,6 +2,10 @@ import { ArchiveSharp } from "@mui/icons-material";
 import axios from "axios";
 
 export default class PostServis {
+    static async getAllPosts(){
+        const respons = await axios.get("/api/allposts")
+        return respons.data;  
+    }
     static async getMyPost(id){
         const respons = await axios.post("/api/offer/myof", {
             id: id,
@@ -50,5 +54,20 @@ export default class PostServis {
             userId: userId,
         })
         return respons.data; 
+    }
+    static async switchData(name, surname, secondName, numberGroup, login, id){
+        await axios.post("api/changedata", {
+            name: name,
+            surname: surname,
+            secondname: secondName,
+            group: numberGroup,
+            login: login,
+            id: id,
+          });
+    }
+    static async switchPassword(password){
+        await axios.post("", {
+            password: password,
+          });
     }
 }

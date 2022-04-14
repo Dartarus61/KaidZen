@@ -42,6 +42,7 @@ const Login = () => {
         password: password.value,
       })
       .then(function (response) {
+        console.log(response.data);
         setIsAuth({
           auth: true,
           role: response.data.user.role,
@@ -51,6 +52,7 @@ const Login = () => {
             name: response.data.user.name,
             surname: response.data.user.surname,
             secondName: response.data.user.secondname,
+            login: response.data.user.email,
             numberGroup: response.data.user.group,
             token: response.data.accsessToken,
           },
@@ -66,6 +68,7 @@ const Login = () => {
               name: response.data.user.name,
               surname: response.data.user.surname,
               secondName: response.data.user.secondname,
+              login: response.data.user.email,
               numberGroup: response.data.user.group,
               token: response.data.accsessToken,
             },

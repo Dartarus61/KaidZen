@@ -5,6 +5,7 @@ import Profile from "../../pages/Profile/Profile"
 import SendSuggest from "../../pages/SendSuggest/SendSuggest"
 import GetSaggestions from "../../pages/GetSaggestions/GetSaggestions"
 import AdminPanel from "../../pages/AdminPanel/AdminPanel"
+import AllSuggestions from "../../pages/AllSuggestions/AllSuggestions"
 
 export const publicRoutes = [
     {path: "/login", element: <Login />},
@@ -25,6 +26,7 @@ export const glavaRoutes = [
 ]
 
 export const adminRoutes = [
+    {path: "/allSuggestions", element: <AllSuggestions />},
     {path: "/admin", element: <AdminPanel />},
     {path: "*", element: <Navigate to="/admin" replace />},
 ]

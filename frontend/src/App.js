@@ -14,6 +14,7 @@ function App() {
       surname: "",
       secondName: "",
       numberGroup:"",
+      login:"",
       token: "",
       area: "",
     }

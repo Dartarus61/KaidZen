@@ -91,6 +91,11 @@ export default function Menu({ children, head }) {
         head="Админ панель"
         icon={<AdminPanelSettingsIcon />}
       />,
+      <MenuItem
+        to="/allSuggestions"
+        head="Все предложения"
+        icon={<AssignmentIcon />}
+      />,
     ];
   } else if (isAuth.role === "glava") {
     menuList = [

@@ -11,8 +11,13 @@ const GetSaggestionsDashboard = () => {
   const [posts, setPosts] = useState([]);
 
   const [fetchingPosts, isLoading, error] = useFetching(async () => {
-    const posts = await PostServis.getPostFromArea(isAuth.data.area);
-    setPosts(posts);
+    if (isAuth.role === "glava") {
+      const posts = await PostServis.getPostFromArea(isAuth.data.area);
+      setPosts(posts);
+    } else {
+      const posts = await PostServis.getAllPosts(isAuth.data.area);
+      setPosts(posts);
+    }
   });
 
   useEffect(() => {

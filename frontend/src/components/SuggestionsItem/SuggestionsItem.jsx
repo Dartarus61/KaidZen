@@ -5,6 +5,7 @@ import { useFetching } from "../../items/hooks/useFetching";
 import PostServis from "../../items/PostServis";
 import { AuthContext } from "../../items/context/context";
 import Loader from "../../UI/Loader/Loader";
+import axios from "axios";
 
 const SuggestionsItem = ({ props }) => {
   const { isAuth } = useContext(AuthContext);
@@ -34,6 +35,21 @@ const SuggestionsItem = ({ props }) => {
     fetchingPosts();
   };
 
+  const download = async (e) => {
+    e.preventDefault();
+    await axios
+      .get(`http://localhost:3001/api/download?id=${props.id}`)
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${props.fileName}`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      });
+  };
+
   return (
     <ListItem
       sx={{
@@ -56,6 +72,20 @@ const SuggestionsItem = ({ props }) => {
               .join(" ")}`}</p>
             <p>{`Предложение: ${props.description}`}</p>
             <p>{`Ожидаемый экономический эффект: ${props.economic}`}</p>
+            {props.filePath ? (
+              <div>
+                <p>Файл:</p>
+                <Button
+                  onClick={(e) => {
+                    download(e);
+                  }}
+                >
+                  Скачать Файл
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
             <div
               style={
                 postState || postState === null
