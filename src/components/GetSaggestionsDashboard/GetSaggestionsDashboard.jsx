@@ -5,6 +5,7 @@ import PostServis from "../../items/PostServis";
 import { AuthContext } from "../../items/context/context";
 import SuggestionsItem from "../SuggestionsItem/SuggestionsItem";
 import Loader from "../../UI/Loader/Loader";
+import PostList from "../PostList/PostList";
 
 const GetSaggestionsDashboard = () => {
   const { isAuth } = useContext(AuthContext);
