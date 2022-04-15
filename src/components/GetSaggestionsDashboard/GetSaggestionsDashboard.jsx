@@ -30,7 +30,11 @@ const GetSaggestionsDashboard = () => {
       {isLoading ? (
         <Loader />
       ) : posts.length ? (
-        posts.map((el) => <SuggestionsItem props={el} />)
+        isAuth.role === "glava" ? (
+          posts.map((el) => <SuggestionsItem props={el} />)
+        ) : (
+          <PostList posts={posts} />
+        )
       ) : (
         <p>Предложений нет</p>
       )}
