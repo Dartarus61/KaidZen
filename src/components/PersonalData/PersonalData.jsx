@@ -2,7 +2,7 @@ import { Button, Fab, TextField } from "@mui/material";
 import React, { useState, useContext } from "react";
 import s from "./PersonalData.module.css";
 import { AuthContext } from "./../../items/context/context";
-import axios from "axios";
+import axios from "../../http";
 import { useFetching } from "../../items/hooks/useFetching";
 import PostServis from "../../items/PostServis";
 import Loader from "../../UI/Loader/Loader";

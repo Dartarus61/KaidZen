@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import CommentList from "./CommentList/CommentList";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../http";
 
 const PostItem = ({ props, index }) => {
   const [open, setOpen] = useState(false);

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../http.js";
 
 export default class PostServis {
     static async getAllPosts(){

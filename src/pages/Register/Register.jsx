@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useInput } from "../../items/hooks/useInput";
 import { AuthContext } from "../../items/context/context";
 import InputList from "../../components/InputList/InputList";
-import axios from "axios";
+import axios from "../../http";
 import Loader from "../../UI/Loader/Loader";
 import Alert from "@mui/material/Alert";
 

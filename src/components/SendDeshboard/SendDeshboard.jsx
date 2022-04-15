@@ -9,7 +9,7 @@ import { Button, TextField } from "@mui/material";
 import s from "./SendDeshboard.module.css";
 import Loader from "../../UI/Loader/Loader";
 import { AuthContext } from "../../items/context/context";
-import axios from "axios";
+import axios from "../../http";
 
 const SendDeshboard = () => {
   const { isAuth } = useContext(AuthContext);
