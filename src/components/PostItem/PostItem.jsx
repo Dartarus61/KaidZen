@@ -16,8 +16,6 @@ const PostItem = ({ props, index }) => {
     setOpen(!open);
   };
 
-  console.log(props);
-
   const cheakStatus = () => {
     switch (props.accepted) {
       case "true":
