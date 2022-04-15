@@ -16,6 +16,8 @@ const PostItem = ({ props, index }) => {
     setOpen(!open);
   };
 
+  console.log(props);
+
   const cheakStatus = () => {
     switch (props.accepted) {
       case "true":
@@ -86,7 +88,7 @@ const PostItem = ({ props, index }) => {
         )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <CommentList props={props.сomments} />
+        <CommentList props={props.comments} />
       </Collapse>
     </div>
   );
