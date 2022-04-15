@@ -86,7 +86,7 @@ const PostItem = ({ props, index }) => {
         )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <CommentList props={props.Comments} />
+        <CommentList props={props.сomments} />
       </Collapse>
     </div>
   );
