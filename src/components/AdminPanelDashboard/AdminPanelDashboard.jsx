@@ -23,7 +23,9 @@ const AdminPanelDashboard = () => {
       ) : !users.length ? (
         "Юзеров нет"
       ) : (
-        users.map((el, index) => <UserItem props={el} index={index + 1} />)
+        users.map((el, index) =>
+          el.role !== "admin" ? <UserItem props={el} index={index + 1} /> : ""
+        )
       )}
     </List>
   );
