@@ -2,7 +2,7 @@ import React from "react";
 import Menu from "../../UI/Menu/Menu";
 import GetSaggestionsDashboard from "../../components/GetSaggestionsDashboard/GetSaggestionsDashboard";
 
-const SendSuggest = () => {
+const GetSaggestions = () => {
   return (
     <Menu head="Поступившие предложения">
       <GetSaggestionsDashboard />
@@ -10,4 +10,4 @@ const SendSuggest = () => {
   );
 };
 
-export default SendSuggest;
+export default GetSaggestions;
